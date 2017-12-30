@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { fetchWeather } from '../actions/index';
 
-
-API_KEY="e0cd0b0d28eec5113bc2c16129f66e65";
-
-export default class SearchBar extends Component {
+class SearchBar extends Component {
     constructor(props) {
         super(props);
 
@@ -11,6 +11,7 @@ export default class SearchBar extends Component {
 
         // to prevent error: Cannot read property 'setState' of undefined
         this.onInputChange = this.onInputChange.bind(this);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
     }
 
     onInputChange(event) {
@@ -21,6 +22,8 @@ export default class SearchBar extends Component {
         event.preventDefault();
 
         // We need to go and fetch weather data
+        this.props.fetchWeather(this.state.term);
+        this.setState({ term: '' });
     }
 
     render() {
@@ -39,3 +42,9 @@ export default class SearchBar extends Component {
         
     }
 }
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ fetchWeather }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(SearchBar);
