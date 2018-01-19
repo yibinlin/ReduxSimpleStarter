@@ -10,15 +10,23 @@ class PostsNew extends Component {
                 <input
                     className="form-control"
                     type="text"
+                    // All framework-defined callback functions & properties here.
                     {...field.input}
                 />
+                {field.meta.error}
             </div>
         );
     }
 
+    onSubmit(values) {
+        console.log(values);
+    }
+
     render() {
+        const { handleSubmit } = this.props;
+
         return (
-            <form>
+            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                 <Field 
                     label="Title For Post"
                     name="title"
@@ -34,6 +42,7 @@ class PostsNew extends Component {
                     name="content"
                     component={this.renderField}
                 />
+                <button type="submit" className="btn btn-primary">Submit</button>
             </form>
         );
     }
@@ -45,15 +54,16 @@ function validate(values) {
 
     // Validate inputs from 'values'
     if (!values.title) {
+        // the property "title" must  match Field name "title".
         errors.title = "Enter a title";
     }
 
     if (!values.categories) {
-        errors.title = "Enter some categories";
+        errors.categories = "Enter some categories";
     }
 
     if (!values.content) {
-        errors.content = "Enter a title!";
+        errors.content = "Enter some content please";
     }
 
     // If errors is empty, the form is fine to submit.
