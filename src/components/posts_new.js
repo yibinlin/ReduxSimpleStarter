@@ -13,7 +13,7 @@ class PostsNew extends Component {
                     // All framework-defined callback functions & properties here.
                     {...field.input}
                 />
-                {field.meta.error}
+                {field.meta.touched ? field.meta.error : ''}
             </div>
         );
     }
