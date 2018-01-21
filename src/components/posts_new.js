@@ -23,6 +23,7 @@ class PostsNew extends Component {
     }
 
     render() {
+        // prop provided by redux form, validating the form, etc.
         const { handleSubmit } = this.props;
 
         return (
