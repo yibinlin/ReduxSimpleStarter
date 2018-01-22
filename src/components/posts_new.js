@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 // reduxForm is a function like connect helper, talks to formReducer.
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { createPost } from '../actions';
 
 class PostsNew extends Component {
     renderField(field) {
@@ -25,7 +27,7 @@ class PostsNew extends Component {
     }
 
     onSubmit(values) {
-        console.log(values);
+        this.props.createPost(values);
     }
 
     render() {
@@ -86,4 +88,6 @@ export default reduxForm({
     validate,
     // name of the form.
     form: 'PostsNewForm'
-})(PostsNew);
+})(
+    connect(null, { createPost })(PostsNew)
+);
