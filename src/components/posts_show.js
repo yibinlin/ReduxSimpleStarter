@@ -10,15 +10,24 @@ class PostsShow extends Component {
     }
 
     render() {
-        posts[]
+        const { post } = this.props;
+
+        // to prevent error "cannot read property of undefined..."
+        if (!post) {
+            return <div>Loading...</div>;
+        }
+
         return (
             <div>
-                Posts Show!
+                <h3>{post.title}</h3>
+                <h6>Categories: {post.categories}</h6>
+                <p>{post.content}</p>
             </div>
         );
     }
 }
 
+// ownProps is the component's props reference.
 function mapStateToProps({ posts }, ownProps) {
     return { post: posts[ownProps.match.params.id] };
 }
