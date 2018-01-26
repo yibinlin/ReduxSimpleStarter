@@ -1,27 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { fetchPost, deletePost } from '../actions';
 import { Link } from 'react-router-dom';
+import { ROOT_URL, API_KEY } from '../constants/api';
 
 class PostsShow extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { post: {} };
+
+        this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    }
+
     componentDidMount() {
         // provided by router.
         const id = this.props.match.params.id;
-        this.props.fetchPost(id);
-
-        this.handleClick = this.handleClick.bind(this);
+        axios.get(`${ROOT_URL}/posts/${id}${API_KEY}`)
+            .then((response) => {
+                this.setState({ post: response.data });
+            });
     }
 
     handleDeleteClick() {
         console.log("here!");
         const { id } = this.props.match.params;
-        this.props.deletePost(id, () => {
-            this.props.history.push('/');
-        });
+        const request = axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`)
+            .then(() => this.props.history.push('/'));
     }
 
     render() {
-        const { post } = this.props;
+        const { post } = this.state;
 
         // to prevent error "cannot read property of undefined..."
         if (!post) {
@@ -49,8 +58,9 @@ class PostsShow extends Component {
 }
 
 // ownProps is the component's props reference.
-function mapStateToProps({ posts }, ownProps) {
-    return { post: posts[ownProps.match.params.id] };
-}
+// function mapStateToProps({ posts }, ownProps) {
+//     return { post: posts[ownProps.match.params.id] };
+// }
 
-export default connect(mapStateToProps, { fetchPost, deletePost })(PostsShow);
+//export default connect(mapStateToProps, { fetchPost, deletePost })(PostsShow);
+export default PostsShow;

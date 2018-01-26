@@ -15,14 +15,14 @@ const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
-        <div>
-          <Switch>
-            <Route path="/posts/new" component={PostsNew} />
-            {/* will pass whatevery is after /posts/ and put into props.id. */}
-            <Route path="/posts/:id" component={PostsShow} />
-            <Route path="/" component={PostsIndex} />
-          </Switch>
-        </div>
+      <div>
+        <Switch>
+          <Route path="/posts/new" component={PostsNew} />
+          {/* will pass whatevery is after /posts/ and put into props.id. */}
+          <Route path="/posts/:id" component={PostsShow} />
+          <Route path="/" component={PostsIndex} />
+        </Switch>
+      </div>
     </BrowserRouter>
   </Provider>
   , document.querySelector('.container'));

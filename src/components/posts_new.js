@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createPost } from '../actions';
 
+// This class cannot be rewritten to remove Redux because it uses redux-form.
 class PostsNew extends Component {
     renderField(field) {
         const { meta: { touched, error } } = field;

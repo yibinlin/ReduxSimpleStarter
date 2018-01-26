@@ -1,16 +1,30 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import axios from 'axios';
+// import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchPosts } from '../actions';
+import { ROOT_URL, API_KEY } from '../constants/api'
+
 
 class PostsIndex extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            posts: {}
+        }
+    }
+
     componentDidMount() {
-        this.props.fetchPosts();
+        axios.get(`${ROOT_URL}/posts${API_KEY}`)
+            .then((response) => {
+                const posts_by_id = _.mapKeys(response.data, 'id');
+                this.setState({ posts: posts_by_id });
+            })
     }
 
     renderPosts() {
-        return _.map(this.props.posts, (post) => {
+        return _.map(this.state.posts, (post) => {
             return (
                 <li className="list-group-item" key={post.id}>
                     <Link to={`/posts/${post.id}`}>
@@ -21,9 +35,7 @@ class PostsIndex extends Component {
         });
     }
 
-
     render() {
-        console.log(this.props.posts);
         return (
             <div>
                 <div>
@@ -40,8 +52,10 @@ class PostsIndex extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return { posts: state.posts };
-}
+// function mapStateToProps(state) {
+//     return { posts: state.posts };
+// }
 
-export default connect(mapStateToProps, { fetchPosts })(PostsIndex);
+export default PostsIndex;
+
+//export default connect(mapStateToProps, { fetchPosts })(PostsIndex);
